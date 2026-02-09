@@ -1,0 +1,47 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# --- Virtual environments ---
+.venv/
+venv/
+ENV/
+env/
+
+# --- Flask ---
+instance/
+.webassets-cache
+
+# --- Environment variables ---
+.env
+.env.*
+!.env.example
+
+# --- Logs ---
+*.log
+
+# --- Testing / coverage ---
+.pytest_cache/
+.coverage
+htmlcov/
+
+# --- Build artifacts ---
+build/
+dist/
+*.egg-info/
+
+# --- VS Code ---
+.vscode/
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+
+# --- uv ---
+.uv/
