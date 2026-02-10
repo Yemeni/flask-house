@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ apartment.title }}</h2>
+<p><a href="{{ apartment.url }}" target="_blank">Original listing</a></p>
+<ul>
+  <li>Price total: {{ apartment.price_total }}</li><li>Cold/Warm: {{ apartment.price_cold }} / {{ apartment.price_warm }}</li>
+  <li>Deposit: {{ apartment.deposit }}</li><li>Size/Rooms: {{ apartment.size_sqm }} / {{ apartment.rooms }}</li>
+  <li>Location: {{ apartment.location_text }} {{ apartment.postal_code }}</li><li>Availability: {{ apartment.availability }}</li>
+  <li>Advertiser: {{ apartment.advertiser_type }}</li>
+</ul>
+<p>{{ apartment.description }}</p>
+<h3>Images</h3>
+<ul>{% for img in (apartment.images_json|default('[]')|from_json) %}<li><a href="{{ img }}" target="_blank">{{ img }}</a></li>{% endfor %}</ul>
+<h3>AI actions</h3>
+<form method="post" action="{{ url_for('summarize_apartment', apartment_id=apartment.id) }}">
+  <select name="provider_id"><option value="">Active provider</option>{% for p in providers %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}</select>
+  <button type="submit">Summarize apartment</button>
+</form>
+<form method="post" action="{{ url_for('evaluate_apartment', apartment_id=apartment.id) }}">
+  <select name="provider_id"><option value="">Active provider</option>{% for p in providers %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}</select>
+  <input type="text" name="criteria" placeholder="e.g. commuting to Aachen Hbf" required>
+  <button type="submit">Check suitability</button>
+</form>
+<h3>AI Notes</h3>
+{% for note in notes %}<article><strong>{{ note.kind }}</strong> ({{ note.model_used }})<pre>{{ note.result_text }}</pre></article>{% endfor %}
+{% endblock %}

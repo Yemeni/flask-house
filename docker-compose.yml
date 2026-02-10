@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8005:8005"
+    environment:
+      FLASK_SECRET_KEY: "change-me"
+      DATABASE_URL: "sqlite:////app/data/app.db"
+      CRAWL_RATE_LIMIT_SECONDS: "1.5"
+      HTTP_TIMEOUT_SECONDS: "15"
+      # Example token pass-through for env referenced providers
+      AI_PROVIDER_OPENAI_KEY: ""
+    volumes:
+      - ./data:/app/data

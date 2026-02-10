@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Dashboard</h2>
+<ul>
+  <li>Sources: {{ stats.sources }}</li>
+  <li>Apartments: {{ stats.apartments }}</li>
+  <li>AI notes: {{ stats.notes }}</li>
+  <li>AI providers: {{ stats.providers }}</li>
+</ul>
+{% endblock %}

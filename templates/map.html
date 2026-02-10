@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Map</h2>
+<div id="map" style="height: 500px;"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const apartments = {{ apartments|tojson }};
+const map = L.map('map').setView([50.7753, 6.0839], 11);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19}).addTo(map);
+for (const a of apartments) {
+  const m = L.marker([a.lat, a.lon]).addTo(map);
+  m.bindPopup(`<b>${a.title || 'Apartment'}</b><br>Price: ${a.price_total || '-'}<br>Size: ${a.size_sqm || '-'}<br>Nearest station: ${a.nearest_station_distance_m || '-'}m`);
+}
+</script>
+{% endblock %}

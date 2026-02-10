@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Sources</h2>
+<form method="post">
+  <label>Search URLs (one per line)</label>
+  <textarea name="urls" rows="4"></textarea>
+  <label>Refresh interval (minutes)</label>
+  <input type="number" name="refresh_interval_minutes" value="360" min="1"/>
+  <button type="submit">Save sources</button>
+</form>
+<table>
+  <tr><th>URL</th><th>Interval</th><th>Last Crawled</th><th>Action</th></tr>
+  {% for source in sources %}
+  <tr>
+    <td>{{ source.url }}</td><td>{{ source.refresh_interval_minutes }}</td><td>{{ source.last_crawled_at }}</td>
+    <td>
+      <form method="post" action="{{ url_for('crawl_source_now', source_id=source.id) }}"><button type="submit">Crawl now</button></form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

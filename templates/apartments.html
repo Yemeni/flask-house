@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Apartments</h2>
+<form method="get" class="filters">
+  <input name="min_price" placeholder="Min price" />
+  <input name="max_price" placeholder="Max price" />
+  <input name="min_size" placeholder="Min size" />
+  <input name="rooms" placeholder="Rooms >=" />
+  <input name="availability" placeholder="Availability text" />
+  <input name="max_train_dist" placeholder="Max station distance (m)" />
+  <button type="submit">Apply</button>
+</form>
+<table>
+  <tr><th>Title</th><th>Location</th><th>Size</th><th>Price</th><th>Rooms</th><th>Availability</th><th>Nearest station</th></tr>
+  {% for apt in apartments %}
+  <tr>
+    <td><a href="{{ url_for('apartment_detail', apartment_id=apt.id) }}">{{ apt.title }}</a></td>
+    <td>{{ apt.location_text }}</td><td>{{ apt.size_sqm }}</td><td>{{ apt.price_total }}</td><td>{{ apt.rooms }}</td>
+    <td>{{ apt.availability }}</td><td>{{ apt.nearest_station_distance_m }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
