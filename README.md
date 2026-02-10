@@ -83,5 +83,7 @@ Add your own fixtures by saving sanitized HTML files to `tests/fixtures/` and ex
 ## Troubleshooting
 - **Parsing misses fields**: Kleinanzeigen layout may vary; extend selectors in `crawler/kleinanzeigen.py`.
 - **robots blocked**: source or detail URL disallowed in robots.txt; app intentionally skips and continues.
+- **No apartments after crawl**: click **Crawl now** and check flash messages on Sources; the app now reports scanned/created/skipped counts and top fetch errors (robots/captcha/HTTP).
+- **Direct ad URL as source**: supported; the crawler treats `/s-anzeige/...` as a single listing source.
 - **Geocoding/Overpass limits**: retry later and keep rate limits conservative.
 - **AI timeouts/errors**: verify base URL, model name, token env var, and timeout in AI settings.

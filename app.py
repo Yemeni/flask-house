@@ -107,8 +107,14 @@ def register_routes(app: Flask) -> None:
 
     @app.post("/sources/<int:source_id>/crawl")
     def crawl_source_now(source_id: int):
-        crawl_source(source_id)
-        flash("Crawl completed.", "info")
+        result = crawl_source(source_id)
+        msg = (
+            f"Crawl finished: scanned={result['scanned']}, created={result['created']}, "
+            f"updated={result['updated']}, skipped={result['skipped']}"
+        )
+        flash(msg, "info")
+        for error in result.get("errors", []):
+            flash(error, "danger")
         return redirect(url_for("sources"))
 
     @app.get("/apartments")
