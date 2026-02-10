@@ -16,5 +16,5 @@ RUN uv sync --no-dev
 COPY . /app
 RUN mkdir -p /app/data
 
-EXPOSE 8000
-CMD ["uv", "run", "gunicorn", "-b", "0.0.0.0:8000", "app:app"]
+EXPOSE 8005
+CMD ["uv", "run", "gunicorn", "-b", "0.0.0.0:8005", "app:app"]

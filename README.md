@@ -19,19 +19,26 @@ A Flask + Jinja app managed with **uv** for collecting apartment listings from K
    ```
 3. Run development server:
    ```bash
-   uv run flask --app app run --debug
+   uv run flask --app app run --debug --host 0.0.0.0 --port 8005
    ```
-4. Open `http://127.0.0.1:5000`.
+4. Open `http://127.0.0.1:8005`.
+
+
+## Run from VS Code
+1. Open the folder in VS Code.
+2. Run `uv sync` (Terminal or **Tasks: Run Task** -> `uv sync`).
+3. Start debugging with **Run and Debug** -> `Flask House (uv)`.
+4. App runs on `http://127.0.0.1:8005` and stores data in `app.db` by default.
 
 ## Docker (Raspberry Pi / arm64)
 ```bash
 docker compose up --build
 ```
-Open: `http://<pi-ip>:8000`.
+Open: `http://<pi-ip>:8005`.
 
 ### Environment variables
 - `FLASK_SECRET_KEY`
-- `DATABASE_URL` (default in app: `sqlite:///data/app.db`)
+- `DATABASE_URL` (optional; default is file-based `sqlite:///app.db`)
 - `CRAWL_RATE_LIMIT_SECONDS`
 - `HTTP_TIMEOUT_SECONDS`
 - Optional token vars like `AI_PROVIDER_OPENAI_KEY` (map by setting provider `api_key_env`).
