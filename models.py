@@ -99,7 +99,7 @@ class AiNote(db.Model):
 
 class GeocodeCache(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    query = db.Column(db.String(500), unique=True, nullable=False)
+    location_query = db.Column("query", db.String(500), unique=True, nullable=False)
     lat = db.Column(db.Float, nullable=False)
     lon = db.Column(db.Float, nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)

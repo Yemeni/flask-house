@@ -25,12 +25,12 @@ def haversine_m(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
 def geocode_apartment_if_needed(apartment: Apartment) -> None:
     if apartment.lat is not None and apartment.lon is not None:
         return
-    query = apartment.location_text or ""
+    location_query = apartment.location_text or ""
     if apartment.postal_code:
-        query = f"{query} {apartment.postal_code}"
-    if not query.strip():
+        location_query = f"{location_query} {apartment.postal_code}"
+    if not location_query.strip():
         return
-    cached = GeocodeCache.query.filter_by(query=query).first()
+    cached = GeocodeCache.query.filter_by(location_query=location_query).first()
     if cached:
         apartment.lat, apartment.lon = cached.lat, cached.lon
         apartment.geocoded_at = datetime.now(timezone.utc)
@@ -39,7 +39,7 @@ def geocode_apartment_if_needed(apartment: Apartment) -> None:
     headers = {"User-Agent": DEFAULT_UA}
     resp = requests.get(
         f"{NOMINATIM_URL}/search",
-        params={"q": query, "format": "json", "limit": 1},
+        params={"q": location_query, "format": "json", "limit": 1},
         timeout=20,
         headers=headers,
     )
@@ -52,7 +52,7 @@ def geocode_apartment_if_needed(apartment: Apartment) -> None:
     lon = float(data[0]["lon"])
     apartment.lat, apartment.lon = lat, lon
     apartment.geocoded_at = datetime.now(timezone.utc)
-    db.session.add(GeocodeCache(query=query, lat=lat, lon=lon))
+    db.session.add(GeocodeCache(location_query=location_query, lat=lat, lon=lon))
 
 
 def find_nearest_poi(lat: float, lon: float, category: str) -> dict | None:
