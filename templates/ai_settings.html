@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>AI Settings</h2>
+<form method="post">
+  <input type="hidden" name="action" value="set_active">
+  <label>Active provider</label>
+  <select name="active_provider_id">
+    <option value="">None</option>
+    {% for p in providers %}<option value="{{ p.id }}" {% if active_provider_id == p.id %}selected{% endif %}>{{ p.name }} ({{ p.provider_type }})</option>{% endfor %}
+  </select>
+  <button type="submit">Set active</button>
+</form>
+
+<h3>Add provider</h3>
+<form method="post">
+  <input type="hidden" name="action" value="save_provider">
+  <input name="name" placeholder="Name" required>
+  <select name="provider_type">
+    <option>ollama</option><option>openai_compatible</option><option>openai</option><option>anthropic</option><option>gemini</option><option>custom_http</option>
+  </select>
+  <input name="base_url" placeholder="Base URL">
+  <input name="model" placeholder="Model or custom path template">
+  <input name="api_key_env" placeholder="API key env var name">
+  <input name="api_key_value" placeholder="API key (stored)">
+  <textarea name="headers_json" placeholder='{"X-Header":"value"}'></textarea>
+  <input name="request_timeout_seconds" value="20" type="number" min="1">
+  <label><input type="checkbox" name="enabled" checked> enabled</label>
+  <button type="submit">Save provider</button>
+</form>
+
+<h3>Providers</h3>
+{% for p in providers %}
+<div class="card">
+  <strong>{{ p.name }}</strong> - {{ p.provider_type }} - {{ p.base_url }} - model {{ p.model }} - token {{ p.masked_token() or '(env/none)' }}
+  <form method="post"><input type="hidden" name="action" value="test_provider"><input type="hidden" name="provider_id" value="{{ p.id }}"><button type="submit">Test connection</button></form>
+  <form method="post" onsubmit="return confirm('Delete provider?')"><input type="hidden" name="action" value="delete_provider"><input type="hidden" name="provider_id" value="{{ p.id }}"><button type="submit">Delete</button></form>
+</div>
+{% endfor %}
+{% endblock %}
